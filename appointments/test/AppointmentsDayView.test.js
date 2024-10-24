@@ -1,9 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react'
-import ReactDOM from 'react-dom'
-import ReactTestUtils from 'react-dom/test-utils'
+import React, {act} from 'react'
+import ReactDOM from 'react-dom/client'
 import { Appointment, AppointmentsDayView } from '../src/AppointmentsDayView'
 
 describe('Appointment', () => {
@@ -11,17 +10,20 @@ describe('Appointment', () => {
   let customer = {};
 
   beforeEach(() => {
-    container = document.createElement('div');
+    container = document.createElement("div");
+    document.body.replaceChildren(container);
   });
 
-  const render = component =>
-    ReactDOM.render(component, container);
+  const render = (component) =>
+    act(() =>
+      ReactDOM.createRoot(container).render(component)
+    );
 
   const appointmentTable = () =>
-    container.querySelector('#appointmentView > table');
+    container.querySelector("#appointmentView > table");
 
   it('renders a table', () => {
-    render(<Appointment customer={customer} />);
+    render(<Appointment customer={customer} />); 
     expect(appointmentTable()).not.toBeNull();
   });
 
@@ -111,12 +113,17 @@ describe('AppointmentsDayView', () => {
     {startsAt: today.setHours(12, 0), customer: {firstName: 'Ashley'} },
     {startsAt: today.setHours(13, 0),  customer: { firstName: 'Jordan'} }
   ]
-
+  
   beforeEach(() => {
-    container = document.createElement('div')
-  })
+    container = document.createElement("div");
+    document.body.replaceChildren(container);
+  });
 
-  const render = component => ReactDOM.render(component, container);
+  const render = (component) =>
+    act(() =>
+      ReactDOM.createRoot(container).render(component)
+    );
+
 
   it('renders a div with the right id', () => {
     render(<AppointmentsDayView appointments={[]} />)
@@ -138,12 +145,12 @@ describe('AppointmentsDayView', () => {
 
   it('initially shows a message saying there are no appointments today', () => {
     render(<AppointmentsDayView appointments={[]} />)
-    expect(container.textContent).toMatch('There are no appointments scheduled for today.')
+    expect(document.body.textContent).toMatch('There are no appointments scheduled for today.')
   })
   
   it('selects the first appointment by default', () => {
     render(<AppointmentsDayView appointments={appointments} />)
-    expect(container.textContent).toMatch('Ashley')
+    expect(document.body.textContent).toMatch('Ashley')
   })
 
   it('has a button element in each li', () => {
@@ -156,7 +163,8 @@ describe('AppointmentsDayView', () => {
     render(<AppointmentsDayView appointments={appointments} />)
 
     const button = container.querySelectorAll('button')[1]
-    ReactTestUtils.Simulate.click(button)
-    expect(container.textContent).toMatch('Jordan')
+    act(() => button.click(button))
+    expect(document.body.textContent).toMatch('Jordan')
   })
+
 })
