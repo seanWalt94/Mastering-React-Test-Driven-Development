@@ -2,10 +2,12 @@ import React from 'react'
 import ReactDOM from "react-dom/client"
 import { AppointmentsDayView } from './AppointmentsDayView';
 import { sampleAppointments } from './sampleData';
+import { CustomerForm } from './CustomerForm';
 
 function Main() {
   return (
-    <AppointmentsDayView appointments={sampleAppointments} />
+    // <AppointmentsDayView appointments={sampleAppointments} />
+    <CustomerForm/>
   );
 }
 
