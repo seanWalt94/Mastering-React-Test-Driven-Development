@@ -1,13 +1,15 @@
 import React from 'react'
 import ReactDOM from "react-dom/client"
 import { AppointmentsDayView } from './AppointmentsDayView';
-import { sampleAppointments } from './sampleData';
+import { sampleAppointments, sampleAvailableTimeSlots } from './sampleData';
 import { CustomerForm } from './CustomerForm';
+import { AppointmentForm } from './AppointmentForm';
 
 function Main() {
   return (
     // <AppointmentsDayView appointments={sampleAppointments} />
-    <CustomerForm/>
+    // <CustomerForm/>
+    <AppointmentForm availableTimeSlots={sampleAvailableTimeSlots}/>
   );
 }
 
